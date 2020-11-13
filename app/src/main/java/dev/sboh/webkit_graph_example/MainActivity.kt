@@ -1,11 +1,12 @@
 package dev.sboh.webkit_graph_example
 
+import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import dev.sboh.webkit_graph_example.databinding.ActivityMainBinding
 import dev.sboh.webkit_graph_example.databinding.RecyclerItemBinding
@@ -20,18 +21,17 @@ class MainActivity : AppCompatActivity() {
         setContentView(view)
 
         val list = ArrayList<Subject>()
-        list.add(Subject("Hello"))
+        list.add(Subject("html", Intent(this, HtmlActivity::class.java)))
+        list.add(Subject("web", Intent(this, WebActivity::class.java)))
 
-        val adapter = RecyclerAdapter(list)
+        val adapter = RecyclerAdapter(list, this)
         binding.recyclerView.adapter = adapter
     }
 }
 
-data class Subject(val title: String) {
+data class Subject(val title: String, val intent: Intent)
 
-}
-
-class RecyclerAdapter(private val items: ArrayList<Subject>) :
+class RecyclerAdapter(private val items: ArrayList<Subject>, private val context: Context) :
     RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
 
     override fun getItemCount() = items.size
@@ -39,7 +39,7 @@ class RecyclerAdapter(private val items: ArrayList<Subject>) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = items[position]
         val listener = View.OnClickListener {
-            Toast.makeText(it.context, "Clicked: ${item.title}", Toast.LENGTH_SHORT).show()
+            context.startActivity(items[position].intent)
         }
         holder.apply {
             bind(listener, item)
