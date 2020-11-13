@@ -23,6 +23,7 @@ class MainActivity : AppCompatActivity() {
         val list = ArrayList<Subject>()
         list.add(Subject("html", Intent(this, HtmlActivity::class.java)))
         list.add(Subject("web", Intent(this, WebActivity::class.java)))
+        list.add(Subject("graph", Intent(this, GraphActivity::class.java)))
 
         val adapter = RecyclerAdapter(list, this)
         binding.recyclerView.adapter = adapter
